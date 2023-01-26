@@ -10,6 +10,16 @@ pipeline {
                 }
             }
         }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('http://registry.hub.docker.com', 'DOCKER_HUB'){
+                        dockerapp.push('latest')
+                        dockerapp.push("${env.BUILD_ID}")
+                    }
+                }
+            }
+        }
     }
 
 }
